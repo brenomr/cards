@@ -4,18 +4,47 @@ import ListaDeNotas from './components/listaDeNotas';
 import ListaDeCategorias from './components/listaDeCategorias';
 import './assets/app.css';
 import './assets/index.css';
+import ArrayDeNotas from './dados/Notas';
+import Categorias from './dados/Categorias';
 
 class App extends Component {
 
   constructor(){
     super();
-    this.state = {
+    this.categorias = new Categorias();
+    this.notas = new ArrayDeNotas();
+    /*this.state = {
       notas: [],
       categorias:[],
-    };
+    }; */
   }
 
-  criarNota(titulo, texto, categoria) {
+  render() {
+    return (
+      <section className="conteudo">
+        <FormularioCadastro 
+          categorias={this.categorias.categorias}
+          criarNota={this.notas.criarNota} />
+        <main className="conteudo-principal">
+          <ListaDeCategorias
+            adicionarCategoria={this.categorias.adicionarCategoria}
+            categorias={this.categorias.categorias} />
+          <ListaDeNotas 
+          apagarNota={this.notas.apagarNota}
+          notas={this.notas.notas}/>
+        </main>
+      </section>
+    );
+  }
+
+}
+
+export default App;
+// Pode ser declarado no início das classes
+// como export default class App ...
+
+// Código antigo antes da mudança nos estados
+  /*criarNota(titulo, texto, categoria) {
     const novaNota = {titulo, texto, categoria};
     const novoArrayNotas = [...this.state.notas,novaNota];
     const novoEstado = { notas:novoArrayNotas };
@@ -32,7 +61,7 @@ class App extends Component {
     let arrayNotas = this.state.notas;
     arrayNotas.splice(index,1);
     this.setState({notas:arrayNotas});
-  }
+  } 
 
   render() {
     return (
@@ -50,9 +79,4 @@ class App extends Component {
         </main>
       </section>
     );
-  }
-}
-
-export default App;
-// Pode ser declarado no início das classes
-// como export default class App ...
+  } */
