@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './estilo.css';
 
+
 class FormularioCadastro extends Component {
 
   constructor(props) {
@@ -8,6 +9,22 @@ class FormularioCadastro extends Component {
     this.titulo = "";
     this.texto = "";
     this.categoria = "Sem categoria";
+    this.state = {categorias:[]};
+
+    this._novaCategorias = this._novasCategorias.bind(this);
+  }
+
+  componentDidMount(){
+    this.props.categorias.inscrever(this._novaCategorias);
+  }
+
+  componentWillUnmount() {
+    this.props.categorias.desinscrever(this._novaCategorias);
+  }
+
+  _novasCategorias(categorias){
+    this.setState({...this.state, categorias})
+
   }
 
   _handleMudarTitulo(evento) {
@@ -34,10 +51,10 @@ class FormularioCadastro extends Component {
   render() {
       return (
         <form className="form-cadastro" onSubmit={this._criarNota.bind(this)}>
-          <select onChange={this._handleMudancaCategoria.bind(this)} class="form-cadastro_input">
+          <select onChange={this._handleMudancaCategoria.bind(this)} className="form-cadastro_input">
             <option>Sem categoria</option>
-            {this.props.categorias.map(categoria => {
-              return <option>{categoria}</option>
+            {this.state.categorias.map((categoria, index) => {
+              return <option key={index}>{categoria}</option>
             })}
           </select>
           <input  type="text"
